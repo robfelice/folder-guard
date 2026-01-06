@@ -9,6 +9,12 @@ interface FolderGuardSettings {
     showNotices: boolean;
 }
 
+interface EncryptedFileData {
+    salt: string;  // Base64-encoded salt
+    iv: string;    // Base64-encoded IV
+    data: string;  // Base64-encoded ciphertext
+}
+
 const DEFAULT_SETTINGS: FolderGuardSettings = {
     confirmPassword: true,
     showNotices: true,
@@ -140,9 +146,9 @@ export default class FolderGuard extends Plugin {
                 return false;
             }
 
-            // Step 1: Read encrypted content (no file system changes yet)
+            // Step 1: Read and validate encrypted content (no file system changes yet)
             const content = await this.vaultHandler.readFile(file);
-            const json = JSON.parse(content);
+            const json = this.validateEncryptedStructure(content);
 
             const salt = new Uint8Array(CryptoHelper.base64ToArrayBuffer(json.salt));
             const iv = new Uint8Array(CryptoHelper.base64ToArrayBuffer(json.iv));
@@ -170,7 +176,21 @@ export default class FolderGuard extends Plugin {
 
         } catch (e) {
             console.error(`Failed to decrypt ${file.name}`, e);
-            if (this.settings.showNotices) new Notice(`Failed to decrypt ${file.name} (Wrong password?)`);
+
+            // Provide specific error messages based on failure type
+            if (this.settings.showNotices) {
+                let userMessage = `Failed to decrypt ${file.name}`;
+
+                if (e.message && e.message.includes('Invalid encrypted file')) {
+                    // Structure validation failed - file is corrupted or tampered
+                    userMessage = `${file.name} appears corrupted or has been modified`;
+                } else if (e.message && e.message.includes('decrypt')) {
+                    // Decryption failed - likely wrong password
+                    userMessage = `Failed to decrypt ${file.name} (Wrong password?)`;
+                }
+
+                new Notice(userMessage);
+            }
             return false;
         }
     }
@@ -215,6 +235,73 @@ export default class FolderGuard extends Plugin {
         if (this.settings.showNotices) {
             const action = encrypt ? "Locked" : "Unlocked";
             new Notice(`${action} ${successCount} files in ${folder.name}`);
+        }
+    }
+
+    /**
+     * Validates the structure of an encrypted file's JSON data.
+     * Ensures all required fields are present, have correct types, and valid Base64 encoding.
+     *
+     * @param content - The raw file content (should be JSON)
+     * @returns Validated EncryptedFileData object
+     * @throws Error with specific message if validation fails
+     */
+    private validateEncryptedStructure(content: string): EncryptedFileData {
+        // Step 1: Parse JSON
+        let json: any;
+        try {
+            json = JSON.parse(content);
+        } catch (e) {
+            throw new Error('Invalid encrypted file: Not valid JSON');
+        }
+
+        // Step 2: Check required fields exist
+        if (!json.salt || !json.iv || !json.data) {
+            const missing = [];
+            if (!json.salt) missing.push('salt');
+            if (!json.iv) missing.push('iv');
+            if (!json.data) missing.push('data');
+            throw new Error(`Invalid encrypted file: Missing required fields: ${missing.join(', ')}`);
+        }
+
+        // Step 3: Check field types
+        if (typeof json.salt !== 'string') {
+            throw new Error('Invalid encrypted file: salt must be a string');
+        }
+        if (typeof json.iv !== 'string') {
+            throw new Error('Invalid encrypted file: iv must be a string');
+        }
+        if (typeof json.data !== 'string') {
+            throw new Error('Invalid encrypted file: data must be a string');
+        }
+
+        // Step 4: Validate Base64 format
+        if (!this.isValidBase64(json.salt)) {
+            throw new Error('Invalid encrypted file: salt is not valid Base64');
+        }
+        if (!this.isValidBase64(json.iv)) {
+            throw new Error('Invalid encrypted file: iv is not valid Base64');
+        }
+        if (!this.isValidBase64(json.data)) {
+            throw new Error('Invalid encrypted file: data is not valid Base64');
+        }
+
+        return json as EncryptedFileData;
+    }
+
+    /**
+     * Checks if a string is valid Base64 encoding.
+     *
+     * @param str - String to validate
+     * @returns true if valid Base64, false otherwise
+     */
+    private isValidBase64(str: string): boolean {
+        try {
+            // Attempt to decode - will throw if invalid
+            window.atob(str);
+            return true;
+        } catch {
+            return false;
         }
     }
 
