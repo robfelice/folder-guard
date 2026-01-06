@@ -36,3 +36,8 @@ backups/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !backups/.gitkeep
+
+# Obsidian Plugin Build
+main.js
+*.js.map
+.obsidian/

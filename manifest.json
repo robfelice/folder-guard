@@ -1,0 +1,10 @@
+{
+    "id": "folder-guard",
+    "name": "Folder Guard",
+    "version": "0.1.0",
+    "minAppVersion": "0.15.0",
+    "description": "Selective folder-level encryption for Obsidian",
+    "author": "Rob Felice",
+    "authorUrl": "https://github.com/yourusername/folder-guard",
+    "isDesktopOnly": false
+}
