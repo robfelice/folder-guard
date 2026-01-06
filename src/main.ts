@@ -99,10 +99,10 @@ export default class FolderGuard extends Plugin {
         );
     }
 
-    async encryptFile(file: TFile, password: string) {
+    async encryptFile(file: TFile, password: string): Promise<boolean> {
         try {
             if (file.extension !== 'md') {
-                return;
+                return false;
             }
 
             const content = await this.vaultHandler.readFile(file);
@@ -125,19 +125,22 @@ export default class FolderGuard extends Plugin {
             await this.vaultHandler.renameFile(file, newPath);
 
             if (this.settings.showNotices) new Notice(`Locked ${file.basename}`);
+            return true;
+
         } catch (e) {
             console.error(`Failed to encrypt ${file.name}`, e);
             if (this.settings.showNotices) new Notice(`Failed to encrypt ${file.name}`);
+            return false;
         }
     }
 
-    async decryptFile(file: TFile, password: string) {
+    async decryptFile(file: TFile, password: string): Promise<boolean> {
         try {
             if (file.extension !== 'encrypted') {
-                return;
+                return false;
             }
 
-            // Rename back to .md FIRST (to read it properly if needed, but we can read it directly too)
+            // Step 1: Read encrypted content (no file system changes yet)
             const content = await this.vaultHandler.readFile(file);
             const json = JSON.parse(content);
 
@@ -145,21 +148,30 @@ export default class FolderGuard extends Plugin {
             const iv = new Uint8Array(CryptoHelper.base64ToArrayBuffer(json.iv));
             const ciphertext = CryptoHelper.base64ToArrayBuffer(json.data);
 
+            // Step 2: Decrypt FIRST - fail early if wrong password (no file changes made)
             const key = await CryptoHelper.deriveKey(password, salt);
             const decrypted = await CryptoHelper.decrypt(ciphertext, iv, key);
 
-            // Rename to .md
+            // Step 3: Only after successful decryption, rename the file
             const newPath = file.path.replace(/\.encrypted$/, '.md');
             await this.vaultHandler.renameFile(file, newPath);
 
-            // Write decrypted content to the (now .md) file
-            // Note: After rename, the 'file' object reference usually path updates automatically in Obsidian API
-            await this.vaultHandler.modifyFile(file, decrypted);
+            // Step 4: Get fresh file reference after rename (Obsidian API may have stale reference)
+            const freshFile = this.app.vault.getAbstractFileByPath(newPath) as TFile;
+            if (!freshFile) {
+                throw new Error(`File reference lost after rename: ${newPath}`);
+            }
+
+            // Step 5: Write decrypted content to the now-.md file
+            await this.vaultHandler.modifyFile(freshFile, decrypted);
 
             if (this.settings.showNotices) new Notice(`Unlocked ${file.basename}`);
+            return true;
+
         } catch (e) {
             console.error(`Failed to decrypt ${file.name}`, e);
             if (this.settings.showNotices) new Notice(`Failed to decrypt ${file.name} (Wrong password?)`);
+            return false;
         }
     }
 
