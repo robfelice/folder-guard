@@ -3,7 +3,7 @@
     "name": "Folder Guard",
     "version": "1.0.0",
     "minAppVersion": "0.15.0",
-    "description": "Secure encryption for Obsidian markdown files and folders. Encrypt entire folders or individual .md files with AES-256-GCM encryption while keeping your vault accessible.",
+    "description": "Secure folder and file encryption using AES-256-GCM. Encrypt entire folders or individual .md files while keeping your vault accessible.",
     "author": "Rob Felice",
     "authorUrl": "https://github.com/robfelice",
     "isDesktopOnly": false
