@@ -1,1 +1,22 @@
 /* CSS for Folder Guard */
+
+/* Password strength warning modal styles */
+.folder-guard-warning {
+    color: var(--text-error);
+    font-weight: bold;
+    margin: 1em 0;
+}
+
+.folder-guard-suggestion {
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 0.5em 0;
+}
+
+.folder-guard-notice {
+    background: var(--background-secondary);
+    padding: 1em;
+    border-radius: 4px;
+    border-left: 3px solid var(--text-warning);
+    margin: 1em 0;
+}

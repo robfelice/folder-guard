@@ -1,6 +1,23 @@
 import { App, PluginSettingTab, Setting } from 'obsidian';
 import FolderGuard from './main';
 
+/**
+ * Settings tab for Folder Guard plugin configuration
+ *
+ * Provides UI controls for plugin settings in Obsidian's settings panel.
+ * Changes are automatically persisted when modified.
+ *
+ * @remarks
+ * **Available Settings:**
+ * - **Confirm Password**: Require password re-entry when encrypting (prevents typos)
+ * - **Show Notifications**: Toggle success/error toast notifications
+ * - **Minimum Password Length**: Configurable minimum password length (6-32 characters)
+ * - **Require Password Complexity**: Enforce mixed character types (uppercase, lowercase, numbers, symbols)
+ *
+ * All settings changes are immediately saved to disk via plugin.saveSettings()
+ *
+ * @see FolderGuardSettings interface for settings structure
+ */
 export class FolderGuardSettingTab extends PluginSettingTab {
     plugin: FolderGuard;
 
@@ -35,6 +52,35 @@ export class FolderGuardSettingTab extends PluginSettingTab {
                     .setValue(this.plugin.settings.showNotices)
                     .onChange(async (value) => {
                         this.plugin.settings.showNotices = value;
+                        await this.plugin.saveSettings();
+                    })
+            );
+
+        // Password Security Settings Section
+        containerEl.createEl('h3', { text: 'Password Security' });
+
+        new Setting(containerEl)
+            .setName('Minimum Password Length')
+            .setDesc('Minimum number of characters required for passwords (6-32). Recommended: 12 or higher.')
+            .addSlider((slider) =>
+                slider
+                    .setLimits(6, 32, 1)
+                    .setValue(this.plugin.settings.minPasswordLength)
+                    .setDynamicTooltip()
+                    .onChange(async (value) => {
+                        this.plugin.settings.minPasswordLength = value;
+                        await this.plugin.saveSettings();
+                    })
+            );
+
+        new Setting(containerEl)
+            .setName('Require Password Complexity')
+            .setDesc('Require passwords to contain at least 3 of: uppercase, lowercase, numbers, symbols. Disabling this reduces security.')
+            .addToggle((toggle) =>
+                toggle
+                    .setValue(this.plugin.settings.requireComplexity)
+                    .onChange(async (value) => {
+                        this.plugin.settings.requireComplexity = value;
                         await this.plugin.saveSettings();
                     })
             );

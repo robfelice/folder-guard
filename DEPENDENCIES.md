@@ -1,56 +1,77 @@
 # Project Dependencies
-**Purpose:** This template provides a standardized format for documenting project dependencies, including versions, purposes, and management policies to ensure reproducible builds and dependency tracking.
 
-**Version:** 1.0
-**Last Updated:** 17/07/2025
+**Purpose:** Tracks all external dependencies used in Folder Guard, including versions, purposes, and management policies.
 
-This document tracks all external dependencies used in the project, including their versions, purposes, and any relevant notes.
-
-## Version History
-
-| Version | Date | Description |
-|---------|------|-------------|
-| 1.0 | 15/05/2025 | Initial template creation |
+**Version:** 1.1
+**Last Updated:** 07/01/2026
 
 ## Core Dependencies
 
-| Dependency | Version | Purpose | Notes |
-|------------|---------|---------|-------|
-| Example Library | 1.2.3 | Provides core data processing functionality | Selected for its performance and stability |
-| Another Package | 2.0.0 | Handles authentication | Considering alternatives due to recent issues |
+**Runtime Dependencies:**
+- **None** - Folder Guard uses only browser-native APIs (Web Crypto API) and Obsidian Plugin API
 
 ## Development Dependencies
 
 | Dependency | Version | Purpose | Notes |
 |------------|---------|---------|-------|
-| Test Framework | 3.4.5 | Unit and integration testing | - |
-| Linter | 1.0.0 | Code quality enforcement | Custom ruleset in .lintrc |
+| typescript | 4.7.4 | TypeScript compiler for type-safe development | Standard version for Obsidian plugins |
+| esbuild | 0.17.3 | Fast JavaScript bundler for plugin compilation | Selected for build speed and small bundle size |
+| obsidian | latest | Obsidian Plugin API type definitions | Always use latest for API compatibility |
+| @types/node | ^16.11.6 | Node.js type definitions for TypeScript | Required for build scripts |
+| tslib | 2.4.0 | TypeScript runtime library | Required by TypeScript compiler |
+| builtin-modules | ^5.0.0 | List of Node.js built-in modules | Used by esbuild for external module detection |
+
+## System Requirements
+
+**Build Environment:**
+- Node.js 16.x or higher
+- npm 7.x or higher
+- Windows, macOS, or Linux (any platform supporting Node.js)
+
+**Runtime Environment:**
+- Obsidian v0.15.0 or higher (for Plugin API compatibility)
+- Modern browser with Web Crypto API support (all recent Obsidian versions)
 
 ## Dependency Management
 
-- **Management Tool**: [pip/npm/cargo/etc.]
-- **Lock File**: [requirements.txt/package-lock.json/Cargo.lock/etc.]
-- **Virtual Environment**: [Details of virtual environment if applicable]
+- **Management Tool**: npm
+- **Lock File**: package-lock.json
+- **Build Scripts**:
+  - `npm run dev` - Development build with watch mode
+  - `npm run build` - Production build (minified)
 
 ## Selection Criteria
 
-Dependencies in this project were selected based on:
-- Maintenance activity and community support
-- Performance characteristics
-- Security considerations
-- License compatibility
-- Feature completeness
+Dependencies were selected based on:
+- **Obsidian Community Standards**: Following standard plugin development practices
+- **Minimal Dependencies**: Zero runtime dependencies to reduce attack surface
+- **Build Performance**: esbuild chosen for fast compilation (<100ms builds)
+- **Type Safety**: TypeScript for catching errors during development
+- **API Compatibility**: Using latest Obsidian API definitions
+
+## Security Considerations
+
+- **Zero Runtime Dependencies**: No third-party code runs in production
+- **Web Crypto API**: Browser-native cryptography (AES-256-GCM, PBKDF2)
+- **No External Requests**: Plugin operates entirely offline
+- **Minimal Build Dependencies**: Only essential tools for TypeScript compilation
 
 ## Update Policy
 
-- Security updates should be applied immediately
-- Major version updates require review and testing
-- Dependency updates should be committed separately from feature work
-- Review dependencies quarterly for deprecations or better alternatives
+- **Security updates**: Apply immediately when available
+- **Obsidian API updates**: Track latest for new features and bug fixes
+- **Build tool updates**: Review quarterly, test thoroughly before upgrading
+- **Breaking changes**: Major version updates require full testing cycle
 
 ## Known Issues
 
-- Dependency X has a known issue with feature Y (workaround: Z)
-- Package A conflicts with Package B under certain conditions
+**None** - All dependencies are stable and well-maintained.
 
-*Last Updated: 17/07/2025*
+## Build Compatibility Notes
+
+- **Platform-specific binaries**: esbuild installs platform-specific binaries
+  - Reinstall node_modules when switching between Windows/WSL/macOS
+  - Use `npm install` in target environment, not `npm ci`
+- **TypeScript version**: Locked to 4.7.4 for Obsidian plugin compatibility
+
+*Last Updated: 07/01/2026*

@@ -1,6 +1,6 @@
 {
   "name": "folder-guard",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Selective folder-level encryption for Obsidian",
   "main": "main.js",
   "scripts": {
