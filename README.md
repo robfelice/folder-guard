@@ -184,8 +184,8 @@ See [CHANGELOG.md](CHANGELOG.md) for version history and release notes.
 ## Support
 
 - 📖 [Documentation](docs/)
-- 🐛 [Report Issues](https://github.com/yourusername/folder-guard/issues)
-- 💬 [Discussions](https://github.com/yourusername/folder-guard/discussions)
+- 🐛 [Report Issues](https://github.com/robfelice/folder-guard/issues)
+- 💬 [Discussions](https://github.com/robfelice/folder-guard/discussions)
 
 ---
 
