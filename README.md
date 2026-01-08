@@ -58,6 +58,8 @@ Folder Guard will be available in the Obsidian Community Plugins directory soon.
 4. Review the password strength warning if needed
 5. Folder is now encrypted! Files are renamed to `.encrypted`
 
+![Encrypted file in file explorer](docs/images/encrypted-badge.png)
+
 ### Decrypting a Folder
 1. Right-click an encrypted folder
 2. Select "Unlock Folder (Folder Guard)"
@@ -69,6 +71,10 @@ Folder Guard will be available in the Obsidian Community Plugins directory soon.
 2. Select "Lock File (Folder Guard)"
 3. Enter encryption password
 4. File is encrypted to `.encrypted` format
+
+![Context menu showing Lock File option](docs/images/context-menu.png)
+
+![Password entry dialog](docs/images/password-modal.png)
 
 ### Decrypting Individual Files
 1. Right-click an encrypted file (`.encrypted`)
@@ -87,6 +93,8 @@ Folder Guard will be available in the Obsidian Community Plugins directory soon.
    - **Minimum Password Length**: Adjust slider (6-32 chars)
    - **Require Password Complexity**: Toggle to enforce mixed character types
 
+![Folder Guard settings panel](docs/images/settings.png)
+
 ## Security Model
 
 ### How It Works
@@ -94,6 +102,8 @@ Folder Guard will be available in the Obsidian Community Plugins directory soon.
 - Each file is encrypted with AES-256-GCM using a unique random salt and IV
 - Encrypted data is stored in a JSON file with `.encrypted` extension
 - Your password is **never stored** anywhere - it's only used during encryption/decryption
+
+![Encrypted file format showing salt, IV, and encrypted data](docs/images/encrypted-content.png)
 
 ### Password Storage
 - Passwords are **not stored** on disk or in memory longer than necessary
@@ -190,6 +200,6 @@ See [CHANGELOG.md](CHANGELOG.md) for version history and release notes.
 ---
 
 **Version**: 1.0.0
-**Last Updated**: 07/01/2026
+**Last Updated**: 08/01/2026
 **Author**: Rob Felice
 **License**: MIT
