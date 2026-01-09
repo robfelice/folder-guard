@@ -20,7 +20,7 @@ export class PasswordStrengthModal extends Modal {
     onOpen() {
         const { contentEl } = this;
 
-        contentEl.createEl('h2', { text: 'Weak Password Warning' });
+        new Setting(contentEl).setName('Weak password warning').setHeading();
 
         contentEl.createEl('p', {
             text: this.result.message,
@@ -42,7 +42,7 @@ export class PasswordStrengthModal extends Modal {
         new Setting(contentEl)
             .addButton((btn) =>
                 btn
-                    .setButtonText('Change Password')
+                    .setButtonText('Change password')
                     .setCta()
                     .onClick(() => {
                         this.close();
@@ -50,7 +50,7 @@ export class PasswordStrengthModal extends Modal {
                     }))
             .addButton((btn) =>
                 btn
-                    .setButtonText('Use Anyway')
+                    .setButtonText('Use anyway')
                     .setWarning()
                     .onClick(() => {
                         this.close();

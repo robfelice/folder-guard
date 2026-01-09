@@ -27,7 +27,7 @@ export class PasswordModal extends Modal {
     constructor(
         app: App,
         onSubmit: (result: string) => void,
-        private title: string = 'Enter Password',
+        private title: string = 'Enter password',
         private placeholder: string = 'Enter your password'
     ) {
         super(app);
@@ -37,7 +37,7 @@ export class PasswordModal extends Modal {
     onOpen() {
         const { contentEl } = this;
 
-        contentEl.createEl('h2', { text: this.title });
+        new Setting(contentEl).setName(this.title).setHeading();
 
         new Setting(contentEl)
             .setName('Password')

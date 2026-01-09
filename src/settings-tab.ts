@@ -30,10 +30,10 @@ export class FolderGuardSettingTab extends PluginSettingTab {
         const { containerEl } = this;
 
         containerEl.empty();
-        containerEl.createEl('h2', { text: 'Folder Guard Settings' });
+        new Setting(containerEl).setName('Folder guard settings').setHeading();
 
         new Setting(containerEl)
-            .setName('Confirm Password')
+            .setName('Confirm password')
             .setDesc('Require entering the password twice when encrypting to prevent typos.')
             .addToggle((toggle) =>
                 toggle
@@ -45,7 +45,7 @@ export class FolderGuardSettingTab extends PluginSettingTab {
             );
 
         new Setting(containerEl)
-            .setName('Show Notifications')
+            .setName('Show notifications')
             .setDesc('Show success/error messages when encrypting or decrypting.')
             .addToggle((toggle) =>
                 toggle
@@ -56,11 +56,11 @@ export class FolderGuardSettingTab extends PluginSettingTab {
                     })
             );
 
-        // Password Security Settings Section
-        containerEl.createEl('h3', { text: 'Password Security' });
+        // Password security settings section
+        new Setting(containerEl).setName('Password security').setHeading();
 
         new Setting(containerEl)
-            .setName('Minimum Password Length')
+            .setName('Minimum password length')
             .setDesc('Minimum number of characters required for passwords (6-32). Recommended: 12 or higher.')
             .addSlider((slider) =>
                 slider
@@ -74,7 +74,7 @@ export class FolderGuardSettingTab extends PluginSettingTab {
             );
 
         new Setting(containerEl)
-            .setName('Require Password Complexity')
+            .setName('Require password complexity')
             .setDesc('Require passwords to contain at least 3 of: uppercase, lowercase, numbers, symbols. Disabling this reduces security.')
             .addToggle((toggle) =>
                 toggle

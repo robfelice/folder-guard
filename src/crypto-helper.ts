@@ -49,7 +49,7 @@ export class CryptoHelper {
     /**
      * Generates a cryptographically secure random salt
      *
-     * @returns Promise<Uint8Array> - 16-byte (128-bit) random salt
+     * @returns Uint8Array - 16-byte (128-bit) random salt
      *
      * @remarks
      * - Uses window.crypto.getRandomValues() for CSPRNG
@@ -59,7 +59,7 @@ export class CryptoHelper {
      * @security
      * Never reuse salts - each encryption gets a fresh salt
      */
-    static async generateSalt(): Promise<Uint8Array> {
+    static generateSalt(): Uint8Array {
         return window.crypto.getRandomValues(new Uint8Array(this.SALT_LENGTH));
     }
 

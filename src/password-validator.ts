@@ -112,7 +112,7 @@ export class PasswordValidator {
         const hasLower = /[a-z]/.test(password);
         const hasUpper = /[A-Z]/.test(password);
         const hasNumber = /[0-9]/.test(password);
-        const hasSymbol = /[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]/.test(password);
+        const hasSymbol = /[!@#$%^&*()_+\-=[\]{}|;:,.<>?]/.test(password);
 
         const typeCount = [hasLower, hasUpper, hasNumber, hasSymbol].filter(Boolean).length;
         return typeCount >= 3; // Require at least 3 of 4 types

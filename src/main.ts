@@ -100,7 +100,7 @@ export default class FolderGuard extends Plugin {
 
         this.addCommand({
             id: 'encrypt-current-file',
-            name: 'Folder Guard: Encrypt Current File',
+            name: 'Encrypt current file',
             callback: () => {
                 const file = getActiveFile();
                 if (file) {
@@ -113,12 +113,12 @@ export default class FolderGuard extends Plugin {
 
         this.addCommand({
             id: 'decrypt-current-file',
-            name: 'Folder Guard: Decrypt Current File',
+            name: 'Decrypt current file',
             callback: () => {
                 const file = getActiveFile();
                 if (file) {
                     new PasswordModal(this.app, (password) => {
-                        this.decryptFile(file, password);
+                        void this.decryptFile(file, password);
                     }).open();
                 } else {
                     if (this.settings.showNotices) new Notice('No active file to decrypt');
@@ -135,7 +135,7 @@ export default class FolderGuard extends Plugin {
                     if (file.extension === 'md') {
                         menu.addItem((item) => {
                             item
-                                .setTitle("Lock File (Folder Guard)")
+                                .setTitle("Lock file")
                                 .setIcon("lock")
                                 .onClick(() => {
                                     this.handleEncryptCommand(file);
@@ -147,11 +147,11 @@ export default class FolderGuard extends Plugin {
                     if (file.extension === 'encrypted') {
                         menu.addItem((item) => {
                             item
-                                .setTitle("Unlock File (Folder Guard)")
+                                .setTitle("Unlock file")
                                 .setIcon("unlock")
                                 .onClick(() => {
                                     new PasswordModal(this.app, (password) => {
-                                        this.decryptFile(file, password);
+                                        void this.decryptFile(file, password);
                                     }).open();
                                 });
                         });
@@ -162,10 +162,10 @@ export default class FolderGuard extends Plugin {
                 if (file instanceof TFolder) {
                     menu.addItem((item) => {
                         item
-                            .setTitle("Lock Folder (Folder Guard)")
+                            .setTitle("Lock folder")
                             .setIcon("lock")
-                            .onClick(async () => {
-                                new PasswordModal(this.app, async (password) => {
+                            .onClick(() => {
+                                new PasswordModal(this.app, (password) => {
                                     // Validate password strength
                                     const validation = PasswordValidator.validate(password, this.settings.minPasswordLength, this.settings.requireComplexity);
 
@@ -183,7 +183,7 @@ export default class FolderGuard extends Plugin {
                                                 () => {
                                                     // User chose "Change Password" - re-open password modal
                                                     setTimeout(() => {
-                                                        new PasswordModal(this.app, async (newPassword) => {
+                                                        new PasswordModal(this.app, (newPassword) => {
                                                             const newValidation = PasswordValidator.validate(newPassword, this.settings.minPasswordLength, this.settings.requireComplexity);
                                                             if (!newValidation.valid) {
                                                                 // Recursively show warning again if still weak
@@ -213,11 +213,11 @@ export default class FolderGuard extends Plugin {
 
                     menu.addItem((item) => {
                         item
-                            .setTitle("Unlock Folder (Folder Guard)")
+                            .setTitle("Unlock folder")
                             .setIcon("unlock")
-                            .onClick(async () => {
-                                new PasswordModal(this.app, async (password) => {
-                                    this.processFolder(file, password, false);
+                            .onClick(() => {
+                                new PasswordModal(this.app, (password) => {
+                                    void this.processFolder(file, password, false);
                                 }).open();
                             });
                     });
@@ -297,7 +297,7 @@ export default class FolderGuard extends Plugin {
 
                 const content = await this.vaultHandler.readFile(file);
 
-                const salt = await CryptoHelper.generateSalt();
+                const salt = CryptoHelper.generateSalt();
                 const key = await CryptoHelper.deriveKey(password, salt);
                 const { iv, ciphertext } = await CryptoHelper.encrypt(content, key);
 
@@ -390,10 +390,11 @@ export default class FolderGuard extends Plugin {
                 await this.vaultHandler.renameFile(file, newPath);
 
                 // Step 4: Get fresh file reference after rename (Obsidian API may have stale reference)
-                const freshFile = this.app.vault.getAbstractFileByPath(newPath) as TFile;
-                if (!freshFile) {
+                const abstractFile = this.app.vault.getAbstractFileByPath(newPath);
+                if (!(abstractFile instanceof TFile)) {
                     throw new Error(`File reference lost after rename: ${newPath}`);
                 }
+                const freshFile = abstractFile;
 
                 // Step 5: Write decrypted content to the now-.md file
                 await this.vaultHandler.modifyFile(freshFile, decrypted);
@@ -485,10 +486,10 @@ export default class FolderGuard extends Plugin {
                     new Notice('Passwords do not match!');
                     return;
                 }
-                this.encryptFile(file, password);
-            }, "Confirm Password").open();
+                void this.encryptFile(file, password);
+            }, "Confirm password").open();
         } else {
-            this.encryptFile(file, password);
+            void this.encryptFile(file, password);
         }
     }
 
@@ -498,15 +499,15 @@ export default class FolderGuard extends Plugin {
      */
     private proceedWithFolderEncryption(folder: TFolder, password: string) {
         if (this.settings.confirmPassword) {
-            new PasswordModal(this.app, async (confirm) => {
+            new PasswordModal(this.app, (confirm) => {
                 if (password !== confirm) {
                     new Notice('Passwords do not match!');
                     return;
                 }
-                this.processFolder(folder, password, true);
-            }, "Confirm Password").open();
+                void this.processFolder(folder, password, true);
+            }, "Confirm password").open();
         } else {
-            this.processFolder(folder, password, true);
+            void this.processFolder(folder, password, true);
         }
     }
 
@@ -583,7 +584,7 @@ export default class FolderGuard extends Plugin {
         let json: unknown;
         try {
             json = JSON.parse(content);
-        } catch (e) {
+        } catch {
             throw new Error('Invalid encrypted file: Not valid JSON');
         }
 
