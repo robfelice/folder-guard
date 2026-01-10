@@ -41,3 +41,7 @@ backups/*
 main.js
 *.js.map
 .obsidian/
+
+# GitHub SSH Keys
+folder_guard_key
+folder_guard_key.pub

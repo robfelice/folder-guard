@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-01-07
 
+### Fixed (Phase 5 - Community Plugin Validation) - 2026-01-09
+- Fixed async/await issues flagged by ObsidianReviewBot
+- Fixed sentence case for all UI text per Obsidian guidelines
+- Removed plugin name from command names (shown automatically by Obsidian)
+- Removed plugin name and "settings" from settings headings
+- Fixed unhandled promise warnings with void operator
+- Fixed TFile casting to use instanceof type guard
+- Fixed unnecessary regex escape character
+- Used Setting().setHeading() instead of HTML heading elements
+- Removed unused catch variable
+
 ### Added (Phase 1 - Critical Security Fixes)
 - **Decrypt order-of-operations fix**: Decryption now happens BEFORE file rename, preventing data loss from wrong passwords
 - **JSON validation**: Comprehensive validation of encrypted file structure prevents crashes from corrupted files
