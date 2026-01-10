@@ -404,4 +404,17 @@ All critical bugs from security review have been documented as tasks:
 ---
 
 **Last Updated**: 07/01/2026 19:20 UTC
-**Next Milestone**: Phase 4 - Community Plugin Preparation (Tasks 013-018)
+
+### 10/01/2026 - Phase 5 Updates
+**Accomplishments:**
+1. ✅ Addressed Obsidian Review Bot feedback (Round 2):
+   - Removed redundant "General" heading in settings
+   - Enforced sentence case for "Folder Guard loaded" notification
+   - Updated CHANGELOG.md with fix details
+   - Pushed changes to `github.com/robfelice/folder-guard`
+2. ✅ Commented on PR #9391 to trigger bot rescan
+
+**Next Steps:**
+- Wait for automated validation results
+- Await partial/full approval from Obsidian team
+

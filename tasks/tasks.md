@@ -129,14 +129,15 @@
 
 **Phase 5 Progress:**
 - ✅ PR #9391 submitted to obsidian-releases (08/01/2026)
-- ✅ Validation fixes pushed (09/01/2026) - 2 rounds of fixes for bot issues
-- ⏳ Awaiting bot rescan (automatic within 6 hours)
-- ⏳ Awaiting Obsidian team review (typically 1-3 weeks after validation passes)
+- ✅ Validation fixes pushed (Round 1: 09/01/2026, Round 2: 10/01/2026)
+- ✅ Code pushed to private repo, manual comment trigger added to PR
+- ⏳ Awaiting bot rescan
+- ⏳ Awaiting Obsidian team review (typically 1-3 weeks)
 - PR Link: https://github.com/obsidianmd/obsidian-releases/pull/9391
 
 **Phase 5 Success Criteria:**
 - ✅ PR submitted to obsidian-releases
-- ⏳ All reviewer feedback addressed
+- ⏳ All reviewer feedback addressed (Round 2 fixes applied)
 - ⏳ Plugin approved and published
 
 ## Dependency Graph
