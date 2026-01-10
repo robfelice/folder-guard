@@ -88,7 +88,7 @@ export default class FolderGuard extends Plugin {
 
     async onload() {
         await this.loadSettings();
-        if (this.settings.showNotices) new Notice('Folder Guard Loaded');
+        if (this.settings.showNotices) new Notice('Folder Guard loaded');
         this.vaultHandler = new VaultHandler(this.app.vault);
 
         this.addSettingTab(new FolderGuardSettingTab(this.app, this));
@@ -192,7 +192,7 @@ export default class FolderGuard extends Plugin {
                                                                         this.app,
                                                                         newValidation,
                                                                         () => this.proceedWithFolderEncryption(file, newPassword),
-                                                                        () => {} // Would need to implement recursive retry
+                                                                        () => { } // Would need to implement recursive retry
                                                                     ).open();
                                                                 }, 100);
                                                             } else {
@@ -520,7 +520,7 @@ export default class FolderGuard extends Plugin {
      * @param encrypt - true to encrypt, false to decrypt
      * @returns Object with success and failed counts
      */
-    async processFolder(folder: TFolder, password: string, encrypt: boolean): Promise<{success: number, failed: number}> {
+    async processFolder(folder: TFolder, password: string, encrypt: boolean): Promise<{ success: number, failed: number }> {
         const result = await this.withLock(folder.path, async () => {
             const files = await this.vaultHandler.getFiles(folder);
 
@@ -681,8 +681,8 @@ export default class FolderGuard extends Plugin {
         // Web Crypto API throws DOMException for wrong password
         if (operation === 'decrypt' &&
             (name === 'OperationError' ||
-             message.includes('decrypt') ||
-             message.includes('The operation failed'))) {
+                message.includes('decrypt') ||
+                message.includes('The operation failed'))) {
             return EncryptionErrorType.WRONG_PASSWORD;
         }
 
