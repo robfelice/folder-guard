@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-01-07
 
 ### Fixed (Phase 5 - Community Plugin Validation) - 2026-01-09
+- Fixed validation issues reported by Obsidian Bot: (Round 3)
+    - Removed 'Folder Guard loaded' notice to prevent proper noun casing false positives
+    - Changed 'Markdown' to 'markdown' in error messages for strict sentence case compliance
 - Fixed validation issues reported by Obsidian Bot: (Round 2)
     - Removed redundant 'General' settings heading
     - Updated notification text to use sentence case

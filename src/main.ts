@@ -88,7 +88,7 @@ export default class FolderGuard extends Plugin {
 
     async onload() {
         await this.loadSettings();
-        if (this.settings.showNotices) new Notice('Folder Guard loaded');
+        // if (this.settings.showNotices) new Notice('Folder Guard loaded');
         this.vaultHandler = new VaultHandler(this.app.vault);
 
         this.addSettingTab(new FolderGuardSettingTab(this.app, this));
@@ -438,7 +438,7 @@ export default class FolderGuard extends Plugin {
      */
     handleEncryptCommand(file: TFile) {
         if (file.extension !== 'md') {
-            new Notice('Only Markdown (.md) files can be locked.');
+            new Notice('Only markdown (.md) files can be locked.');
             return;
         }
         this.promptForEncryptPassword(file);
