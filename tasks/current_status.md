@@ -420,9 +420,10 @@ All critical bugs from security review have been documented as tasks:
    - Removed "Folder Guard loaded" notice (false positive risk)
    - Lowercased "markdown" in error messages
    - Fixed TypeScript linting errors in main.ts
+   - **Deep Dive (Round 4):** Removed commented-out "Folder Guard loaded" line to eliminate potential regex false positives from source code scanning
 2. ✅ Authenticated GitHub CLI and triggered bot rescan on PR #9391
 
 **Next Steps:**
-- Wait for automated validation results (Round 3)
+- Wait for automated validation results (Round 4)
 - Await partial/full approval from Obsidian team
 
