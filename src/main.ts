@@ -79,8 +79,8 @@ const DEFAULT_SETTINGS: FolderGuardSettings = {
  * @version 1.0.0
  */
 export default class FolderGuard extends Plugin {
-    settings: FolderGuardSettings;
-    vaultHandler: VaultHandler;
+    settings!: FolderGuardSettings;
+    vaultHandler!: VaultHandler;
     /** Tracks active operations by file path to prevent concurrent modifications */
     private inProgress = new Set<string>();
     /** Duration (milliseconds) to show failure notification with extended details */
@@ -302,8 +302,8 @@ export default class FolderGuard extends Plugin {
                 const { iv, ciphertext } = await CryptoHelper.encrypt(content, key);
 
                 const combinedData = {
-                    salt: CryptoHelper.arrayBufferToBase64(salt.buffer),
-                    iv: CryptoHelper.arrayBufferToBase64(iv.buffer),
+                    salt: CryptoHelper.arrayBufferToBase64(salt.buffer as ArrayBuffer),
+                    iv: CryptoHelper.arrayBufferToBase64(iv.buffer as ArrayBuffer),
                     data: CryptoHelper.arrayBufferToBase64(ciphertext)
                 };
 
@@ -627,7 +627,7 @@ export default class FolderGuard extends Plugin {
             throw new Error('Invalid encrypted file: data is not valid Base64');
         }
 
-        return data as EncryptedFileData;
+        return data as unknown as EncryptedFileData;
     }
 
     /**
