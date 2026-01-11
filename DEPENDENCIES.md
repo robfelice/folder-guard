@@ -20,6 +20,10 @@
 | @types/node | ^16.11.6 | Node.js type definitions for TypeScript | Required for build scripts |
 | tslib | 2.4.0 | TypeScript runtime library | Required by TypeScript compiler |
 | builtin-modules | ^5.0.0 | List of Node.js built-in modules | Used by esbuild for external module detection |
+| eslint | ^9.x | JavaScript/TypeScript linter | Enforces code quality and Obsidan guidelines |
+| eslint-plugin-obsidianmd | ^1.x | Official Obsidian ESLint plugin | Checks for API usage and UI guidelines |
+| @typescript-eslint/parser | ^8.x | ESLint parser for TypeScript | Enables linting of TS files |
+| @typescript-eslint/eslint-plugin | ^8.x | ESLint rules for TypeScript | Standard TypeScript guidelines |
 
 ## System Requirements
 
@@ -74,4 +78,4 @@ Dependencies were selected based on:
   - Use `npm install` in target environment, not `npm ci`
 - **TypeScript version**: Locked to 4.7.4 for Obsidian plugin compatibility
 
-*Last Updated: 07/01/2026*
+*Last Updated: 11/01/2026*

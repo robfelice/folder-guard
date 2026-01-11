@@ -21,6 +21,7 @@
 | package.json | NPM dependencies and build scripts | Task 0 |
 | tsconfig.json | TypeScript compiler configuration | Task 0 |
 | esbuild.config.mjs | Build configuration for plugin bundling | Task 0 |
+| eslint.config.mjs | ESLint flat configuration (v9+) | Task 018 |
 | CHANGELOG.md | Version history and user-facing changes | All tasks |
 | documentation/PRD.md | Product requirements document | Task 0 |
 | documentation/test_plan.md | Comprehensive test plan (36 scenarios) | Task 010 |
