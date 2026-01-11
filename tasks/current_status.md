@@ -421,9 +421,13 @@ All critical bugs from security review have been documented as tasks:
    - Lowercased "markdown" in error messages
    - Fixed TypeScript linting errors in main.ts
    - **Deep Dive (Round 4):** Removed commented-out "Folder Guard loaded" line to eliminate potential regex false positives from source code scanning
-2. ✅ Authenticated GitHub CLI and triggered bot rescan on PR #9391
+3. ✅ Installed official `eslint-plugin-obsidianmd` (Round 5):
+   - Configured specific `obsidianmd/ui/sentence-case` rule
+   - Discovered and fixed the final issue: "Markdown" (proper noun) vs "markdown" (incorrect lowercase from Round 3)
+   - Verified 100% clean lint run locally
+4. ✅ Authenticated GitHub CLI and triggered bot rescan on PR #9391
 
 **Next Steps:**
-- Wait for automated validation results (Round 4)
+- Wait for automated validation results (Round 5)
 - Await partial/full approval from Obsidian team
 

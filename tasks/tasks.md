@@ -129,7 +129,7 @@
 
 **Phase 5 Progress:**
 - ✅ PR #9391 submitted to obsidian-releases (08/01/2026)
-- ✅ Validation fixes pushed (Round 1: 09/01/2026, Round 2: 10/01/2026, Round 3/4: 11/01/2026)
+- ✅ Validation fixes pushed (Round 1-4: 09-11 Jan, Round 5: 11/01/2026 w/ Official Linter)
 - ✅ Code pushed to private repo, manual comment trigger added to PR (via gh CLI)
 - ⏳ Awaiting bot rescan
 - ⏳ Awaiting Obsidian team review (typically 1-3 weeks)
