@@ -88,7 +88,7 @@ export default class FolderGuard extends Plugin {
 
     async onload() {
         await this.loadSettings();
-        // if (this.settings.showNotices) new Notice('Folder Guard loaded');
+        // Notice removed for strict sentence case compliance
         this.vaultHandler = new VaultHandler(this.app.vault);
 
         this.addSettingTab(new FolderGuardSettingTab(this.app, this));
