@@ -438,7 +438,7 @@ export default class FolderGuard extends Plugin {
      */
     handleEncryptCommand(file: TFile) {
         if (file.extension !== 'md') {
-            new Notice('Only markdown (.md) files can be locked.');
+            new Notice('Only Markdown files can be locked');
             return;
         }
         this.promptForEncryptPassword(file);

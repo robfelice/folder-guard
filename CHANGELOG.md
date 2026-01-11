@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-01-07
 
 ### Fixed (Phase 5 - Community Plugin Validation) - 2026-01-09
+- Fixed validation issues reported by Obsidian Bot: (Round 5 - Official Linter)
+    - Installed `eslint-plugin-obsidianmd` to verify compliance vs guessing
+    - Fixed remaining sentence case issue: "Markdown" must be capitalized (proper noun)
+- Fixed validation issues reported by Obsidian Bot: (Round 4 - Deep Dive)
+    - Removed commented-out code containing Title Case strings to prevent regex false positives
 - Fixed validation issues reported by Obsidian Bot: (Round 3)
     - Removed 'Folder Guard loaded' notice to prevent proper noun casing false positives
     - Changed 'Markdown' to 'markdown' in error messages for strict sentence case compliance
